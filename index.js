@@ -20,7 +20,7 @@ const frontendUrl = 'https://secureself-frontend-8xbs.vercel.app'; // Change thi
 // Enable CORS for the specified origin
 app.use(cors({
 
-    origin: 'https://secureself-frontend-8xbs.vercel.app/', // Allow requests only from this origin
+    origin: 'https://secureself-frontend-8xbs.vercel.app', // Allow requests only from this origin
 
 
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
