@@ -12,6 +12,7 @@ import cors from 'cors';
 
 const app = express();
 
+// Connect to the database
 connectDB();
 
 // Replace with your actual frontend URL
@@ -19,28 +20,32 @@ const frontendUrl = 'https://secureself-frontend-8xbs.vercel.app'; // Change thi
 
 // Enable CORS for the specified origin
 app.use(cors({
-
-    origin: 'https://secureself-frontend-8xbs.vercel.app', // Allow requests only from this origin
-
-
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    credentials: true, // Enable credentials
+    origin: frontendUrl, // Allow requests only from this origin
+    methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
+    credentials: true, // Enable credentials (cookies, authorization headers, etc.)
 }));
 
-const port = process.env.PORT || 5100;
-
+// Middleware setup
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(errorHandler);
 app.use(cookieParser());
 
+// Route handling
 app.use("/api/user", userRoute);
 app.use("/api/document", documentRoute);
 app.use("/api/notes", noteRoute);
 
+// Error handling middleware (keep this after all routes)
+app.use(errorHandler);
 
+// Add a 404 handler for any unmatched routes
+app.use((req, res, next) => {
+    res.status(404).send('404: Not Found');
+});
+
+// Start the server
+const port = process.env.PORT || 5100;
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
 });
-
