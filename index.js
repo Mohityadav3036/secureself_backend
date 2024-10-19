@@ -15,7 +15,7 @@ const app = express();
 connectDB();
 
 // Replace with your actual frontend URL
-const frontendUrl = 'https://secureself-frontend-8xbs.vercel.app/'; // Change this to your frontend's actual URL
+const frontendUrl = 'http://localhost:5173'; // Change this to your frontend's actual URL
 
 // Enable CORS for the specified origin
 app.use(cors({
