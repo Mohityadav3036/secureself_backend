@@ -21,7 +21,7 @@ const frontendUrl = 'https://secureself-frontend-8xbs.vercel.app'; // Change thi
 app.use(cors({
 
     origin: 'https://secureself-frontend-8xbs.vercel.app/', // Allow requests only from this origin
-    origin: frontendUrl, // Allow only this origin
+
 
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true, // Enable credentials
@@ -39,12 +39,8 @@ app.use("/api/user", userRoute);
 app.use("/api/document", documentRoute);
 app.use("/api/notes", noteRoute);
 
-<<<<<<< HEAD
-app.listen(port,()=>{
-    console.log(`http://localhost:${port}`);
-})
-=======
+
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
 });
->>>>>>> 87ff3f60fa7c347a75c356ab4a26bf8e47fefade
+
