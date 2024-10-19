@@ -36,6 +36,36 @@ const userRegister = asyncHandler(async (req, res) => {
     message: "User registered successfully.",
     userId: newUser._id,
   });
+
+  // send otp
+   const user = await userModel.findOne({ email });
+  if (!user) {
+    res.status(404);
+    throw new Error("User does not exist");
+  }
+  const otp = Math.floor(100000 + Math.random() * 900000);
+  user.emailOTP = otp;
+  user.save();
+
+  const emailData = {
+    to: user.email,
+    subject: "Email Verification OTP",
+    text: `Hi ${user.name}, your OTP for email verification is ${otp}.`,
+    html: `<p>Hi ${user.name},</p><p>Your OTP for email verification is <strong>${otp}</strong>. It will expire in 10 minutes.</p>`,
+  };
+  try {
+    // Await the sendEmail function
+    await sendEmail(emailData);
+  } catch (error) {
+    // Handle email sending error
+    console.error("Error sending email:", error);
+    res.status(500).json({ message: "Failed to send OTP email." });
+    return; // Exit early to prevent further responses
+  }
+
+  res.status(201).json({
+    message: "Otp is send successfully",
+  });
 });
 
 const verifyEmail = asyncHandler(async (req, res) => {
