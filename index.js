@@ -1,40 +1,41 @@
 import dotenv from 'dotenv';
 dotenv.config();
-import express from 'express'
+import express from 'express';
 import errorHandler from './middlewares/errorHandler.js';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
-import {connectDB} from './config/db.js';
+import { connectDB } from './config/db.js';
 import userRoute from './routes/userRoute.js';
 import documentRoute from './routes/documentRoute.js';
 import noteRoute from './routes/noteRoute.js';
+import cors from 'cors';
 
 const app = express();
 
 connectDB();
 
-import cors from 'cors';
+// Replace with your actual frontend URL
+const frontendUrl = 'https://secureself-backend-1.onrender.com'; // Change this to your frontend's actual URL
 
-// Enable CORS
+// Enable CORS for the specified origin
 app.use(cors({
-    origin: '*', // Allow all origins
+    origin: frontendUrl, // Allow only this origin
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    credentials: true,
+    credentials: true, // Enable credentials
 }));
-// ... rest of your code
 
 const port = process.env.PORT || 5100;
 
 app.use(express.json());
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended:false}));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(errorHandler);
 app.use(cookieParser());
 
-app.use("/api/user",userRoute);
-app.use("/api/document",documentRoute);
-app.use("/api/notes",noteRoute);
+app.use("/api/user", userRoute);
+app.use("/api/document", documentRoute);
+app.use("/api/notes", noteRoute);
 
-app.listen(port,()=>{
-    console.log(`http://localhost:${port}`);
-})
+app.listen(port, () => {
+    console.log(`Server running at http://localhost:${port}`);
+});
