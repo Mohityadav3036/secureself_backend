@@ -17,11 +17,10 @@ import cors from 'cors';
 
 // Enable CORS
 app.use(cors({
-    origin: 'https://secureself-backend-1.onrender.com', // Allow requests only from this origin
+    origin: '*', // Allow all origins
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    credentials: true, // If you need to handle cookies or auth
+    credentials: true,
 }));
-
 // ... rest of your code
 
 const port = process.env.PORT || 5100;
